@@ -10,8 +10,7 @@ export default function Labs() {
       <h1>Welcome to Web Dev</h1>
       <h1>Labs</h1>
       <TOC />
-      <text id="wd-firstname">Nicholas</text>
-      <text id="wd-lastname">Mamisashvili</text>
+      <h2 id="wd-fullname">Nicholas Mamisashvili</h2>
       <a id="wd-github" href="https://github.com/Nickdaco/kanbas-react-web-app">
         https://github.com/Nickdaco/kanbas-react-web-app
       </a>
