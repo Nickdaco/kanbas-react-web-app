@@ -112,5 +112,3 @@ export default function AssignmentEditor() {
     </div>
   );
 }
-
-//  wd-file-upload, wd-assign-to, wd-due-date		wd-available-from	wd-available-until	wd-name
