@@ -67,6 +67,7 @@ export default function Lab1() {
           <li>Ender's Game</li>
           <li>Red Mars</li>
           <li>The Forever War</li>
+          <li>The Master and Margarita</li>
         </ul>
       </div>
 
