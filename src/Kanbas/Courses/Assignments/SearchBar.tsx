@@ -10,7 +10,12 @@ export default function SearchBar() {
           <FaSearch />
         </span>
       </div>
-      <input type="text" className="form-control" placeholder="Search..." />
+      <input
+        id="wd-search=assignment"
+        type="text"
+        className="form-control"
+        placeholder="Search..."
+      />
     </div>
   );
 }

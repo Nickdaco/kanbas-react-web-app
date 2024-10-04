@@ -14,21 +14,21 @@ import { IoEllipsisVertical } from "react-icons/io5";
 export default function Assignments() {
   const assignments = [
     {
-      id: "A1",
+      id: "A1 - ENV + HTML",
       title: "Multiple Modules",
       availableDate: "May 6 at 12:00am",
       dueDate: "May 13 at 11:59pm",
       points: 100,
     },
     {
-      id: "A2",
+      id: "A2 - CSS + BOOTSTRAP",
       title: "Multiple Modules",
       availableDate: "May 13 at 12:00am",
       dueDate: "May 20 at 11:59pm",
       points: 100,
     },
     {
-      id: "A3",
+      id: "A3 - JAVASCRIPT + REACT",
       title: "Multiple Modules",
       availableDate: "May 20 at 12:00am",
       dueDate: "May 27 at 11:59pm",
@@ -52,23 +52,24 @@ export default function Assignments() {
       </div>
 
       <ul className="list-group rounded-0" id="wd-modules">
-        {/* <li className="wd-module list-group-item  p-0 mb-5 border-gray"> */}
-
         <li className="list-group-item" style={assignmentListStyle}>
           <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center">
               <BsGripVertical className="me-2 fs-3" />
               <IoMdArrowDropdown className="me-2" />
-              <span>ASSIGNMENTS</span>
+              <h3 id="wd-assignments-title">ASSIGNMENTS</h3>
             </div>
-            <div className="d-flex align-items-center">
+            <div
+              id="wd-assignments-title"
+              className="d-flex align-items-center"
+            >
               <span className="badge bg-light text-dark p-2">40% of Total</span>
               <FiPlus />
               <IoEllipsisVertical />
             </div>
           </div>
 
-          <ul className="wd-lessons list-group rounded-0">
+          <ul className="wd-assignment-list list-group rounded-0">
             {assignments.map((assignment) => (
               <AssignmentItem key={assignment.id} {...assignment} />
             ))}

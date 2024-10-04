@@ -21,13 +21,18 @@ const AssignmentItem: React.FC<AssignmentItemProps> = ({
   points,
 }) => {
   return (
-    <li className="list-group-item p-3 border-0 border-top">
+    <li className="assignment-list-item list-group-item p-3 border-0 border-top">
       <div className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <BsGripVertical className="me-2 fs-3" />
           <TfiPencilAlt className="me-3 fs-5" />
           <div>
-            <h6 className="mb-0">{id}</h6>
+            <a
+              className="wd-assignment-link mb-0"
+              href="#/Kanbas/Courses/1234/Assignments/123"
+            >
+              {id}
+            </a>
             <div>
               <span className="text-danger">{title} </span>
               <span className="text-secondary">
