@@ -1,44 +1,42 @@
-import React from "react";
-import { PiDotsSixVerticalBold } from "react-icons/pi";
 import { IoEllipsisVertical } from "react-icons/io5";
-import GreenCheckmark from "./GreenCheckmark";
+import GreenCheckmark from "../Modules/GreenCheckmark";
 import { BsGripVertical } from "react-icons/bs";
 import { TfiPencilAlt } from "react-icons/tfi";
 
-interface AssignmentItemProps {
-  id: string;
+interface AssignmentItemType {
   title: string;
+  modules: string;
   availableDate: string;
   dueDate: string;
   points: number;
 }
 
-const AssignmentItem: React.FC<AssignmentItemProps> = ({
-  id,
+export default function AssignmentItem({
   title,
+  modules,
   availableDate,
   dueDate,
   points,
-}) => {
+}: AssignmentItemType) {
   return (
-    <li className="assignment-list-item list-group-item p-3 border-0 border-top">
+    <li className="wd-assignment-list-item list-group-item p-3 border-0 border-top">
       <div className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <BsGripVertical className="me-2 fs-3" />
           <TfiPencilAlt className="me-3 fs-5" />
           <div>
             <a
-              className="wd-assignment-link mb-0"
+              className="wd-assignment-link mb-0 text-decoration-none text-dark fs-5"
               href="#/Kanbas/Courses/1234/Assignments/123"
             >
-              {id}
+              {title}
             </a>
             <div>
-              <span className="text-danger">{title} </span>
-              <span className="text-secondary">
+              <text className="text-danger">{modules} </text>
+              <text className="text-secondary">
                 | Not available until {availableDate} | Due {dueDate} | {points}{" "}
                 pts
-              </span>
+              </text>
             </div>
           </div>
         </div>
@@ -49,6 +47,4 @@ const AssignmentItem: React.FC<AssignmentItemProps> = ({
       </div>
     </li>
   );
-};
-
-export default AssignmentItem;
+}

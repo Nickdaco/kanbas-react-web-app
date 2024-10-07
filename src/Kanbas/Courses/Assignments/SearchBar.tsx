@@ -1,6 +1,4 @@
-import React from "react";
-import { FaSearch } from "react-icons/fa"; // Import the magnifying glass icon
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap
+import { FaSearch } from "react-icons/fa";
 
 export default function SearchBar() {
   return (
@@ -11,7 +9,7 @@ export default function SearchBar() {
         </span>
       </div>
       <input
-        id="wd-search=assignment"
+        id="wd-search-assignment"
         type="text"
         className="form-control"
         placeholder="Search..."
