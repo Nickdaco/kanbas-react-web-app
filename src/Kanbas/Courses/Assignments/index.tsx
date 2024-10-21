@@ -1,12 +1,17 @@
+import { useParams, Link } from "react-router-dom";
+import * as db from "../../Database";
 import AssignmentButtons from "./AssignmentButtons";
 import { BsGripVertical } from "react-icons/bs";
-import AssignmentItem from "./AssignmentItem";
-import { FiPlus } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import SearchBar from "./SearchBar";
 import { IoEllipsisVertical } from "react-icons/io5";
 
 export default function Assignments() {
+  const { cid } = useParams();
+  const courseAssignments = db.assignments.filter(
+    (assignment: any) => assignment.course === cid
+  );
+
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -35,36 +40,23 @@ export default function Assignments() {
               className="d-flex align-items-center p-2"
             >
               <span className="badge bg-light text-dark me-2">
-                40% of Total
+                {courseAssignments.length} Assignments
               </span>
-              <FiPlus className="me-2" />
               <IoEllipsisVertical />
             </div>
           </div>
 
           {/* ASSIGNMENT LIST */}
           <ul className="wd-assignment-list list-group rounded-0">
-            <AssignmentItem
-              title="A1 - ENV + HTML"
-              modules="Multiple Modules"
-              availableDate="May 6 at 12:00am"
-              dueDate="May 13 at 11:59pm"
-              points={100}
-            />
-            <AssignmentItem
-              title="A2 - CSS + BOOTSTRAP"
-              modules="Multiple Modules"
-              availableDate="May 13 at 12:00am"
-              dueDate="May 20 at 11:59pm"
-              points={100}
-            />
-            <AssignmentItem
-              title="A3 - JAVASCRIPT + REACT"
-              modules="Multiple Modules"
-              availableDate="May 20 at 12:00am"
-              dueDate="May 27 at 11:59pm"
-              points={100}
-            />
+            {courseAssignments.map((assignment: any) => (
+              <li key={assignment._id} className="list-group-item">
+                <Link
+                  to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                >
+                  {assignment.title}
+                </Link>
+              </li>
+            ))}
           </ul>
         </li>
       </ul>
