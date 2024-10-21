@@ -54,7 +54,6 @@ export default function TOC() {
       </ul>
       <ul>
         <li>
-          <h1>Nicholas Mamisashvili</h1>
           <Link
             id="wd-github"
             to={"https://github.com/Nickdaco/kanbas-react-web-app/tree/main"}
