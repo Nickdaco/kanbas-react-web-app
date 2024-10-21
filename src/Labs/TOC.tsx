@@ -49,8 +49,6 @@ export default function TOC() {
             Kanbas
           </Link>
         </li>
-        <i></i>
-        <h1> hi</h1>
       </ul>
       <ul>
         <li>
