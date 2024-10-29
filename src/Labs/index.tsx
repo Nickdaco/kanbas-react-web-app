@@ -8,12 +8,9 @@ export default function Labs() {
   return (
     <div id="wd-labs" className="container-fluid">
       <h1>Welcome to Web Dev</h1>
-      <h2 id="wd-fullname">Nicholas Mamisashvili</h2>
-      <a id="wd-github" href="https://github.com/Nickdaco/kanbas-react-web-app">
-        https://github.com/Nickdaco/kanbas-react-web-app
-      </a>
-
       <h1>Labs</h1>
+
+      <h4>Nicholas Mamisashvili</h4>
       <TOC />
       <Routes>
         <Route path="/" element={<Navigate to="Lab1" />} />

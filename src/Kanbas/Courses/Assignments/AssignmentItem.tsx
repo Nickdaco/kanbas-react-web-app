@@ -32,11 +32,11 @@ export default function AssignmentItem({
               {title}
             </a>
             <div>
-              <text className="text-danger">{modules} </text>
-              <text className="text-secondary">
+              <span className="text-danger">{modules} </span>
+              <span className="text-secondary">
                 | Not available until {availableDate} | Due {dueDate} | {points}{" "}
                 pts
-              </text>
+              </span>
             </div>
           </div>
         </div>
