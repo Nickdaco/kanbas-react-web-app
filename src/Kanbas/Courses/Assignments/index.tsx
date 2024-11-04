@@ -5,12 +5,17 @@ import { BsGripVertical } from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io";
 import SearchBar from "./SearchBar";
 import { IoEllipsisVertical } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
+// NOTE TO SELF
+// TODO check this page before submit
 export default function Assignments() {
   const { cid } = useParams();
   const courseAssignments = db.assignments.filter(
     (assignment: any) => assignment.course === cid
   );
+
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   return (
     <div className="container mt-4">
@@ -19,9 +24,11 @@ export default function Assignments() {
           <SearchBar />
         </div>
 
-        <div className="d-flex">
-          <AssignmentButtons />
-        </div>
+        {currentUser.role === "FACULTY" && (
+          <div className="d-flex">
+            <AssignmentButtons />
+          </div>
+        )}
       </div>
 
       <ul className="list-group rounded-0" id="wd-modules">
@@ -46,7 +53,6 @@ export default function Assignments() {
             </div>
           </div>
 
-          {/* ASSIGNMENT LIST */}
           <ul className="wd-assignment-list list-group rounded-0">
             {courseAssignments.map((assignment: any) => (
               <li key={assignment._id} className="list-group-item">
