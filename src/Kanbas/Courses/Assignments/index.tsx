@@ -105,7 +105,7 @@ export default function Assignments() {
                     {assignment.title}
                   </Link>
                   <FaTrash
-                    className="text-danger cursor-pointer" // Add trash icon
+                    className="text-danger cursor-pointer"
                     onClick={() => handleDeleteClick(assignment)}
                   />
                 </li>
