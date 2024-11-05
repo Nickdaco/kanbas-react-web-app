@@ -5,7 +5,7 @@ import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
 import "./styles.css";
 import * as db from "./Database";
-import enrollmentsData from "./Database/enrollments.json"; // Import enrollments.json
+import enrollmentsData from "./Database/enrollments.json";
 import { useState } from "react";
 import ProtectedRoute from "./Account/ProtectedRoute";
 
