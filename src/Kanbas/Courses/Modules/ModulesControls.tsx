@@ -29,7 +29,7 @@ export default function ModulesControls({
           type="button"
           data-bs-toggle="dropdown"
         >
-          <GreenCheckmark /> Publish All{" "}
+          <GreenCheckmark /> Publish All
         </button>
         <ul className="dropdown-menu">
           <li>

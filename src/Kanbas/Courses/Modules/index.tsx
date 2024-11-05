@@ -3,7 +3,6 @@ import React, { useState } from "react";
 
 import { addModule, editModule, updateModule, deleteModule } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
-import * as db from "../../Database";
 import LessonControlButtons from "./LessonControlButtons";
 import ModulesControls from "./ModulesControls";
 import { BsGripVertical } from "react-icons/bs";
@@ -21,15 +20,19 @@ export default function Modules() {
   return (
     <div className="wd-modules">
       {isFaculty && (
-        <ModulesControls
-          moduleName={moduleName}
-          setModuleName={setModuleName}
-          addModule={() => {
-            dispatch(addModule({ name: moduleName, course: cid }));
-            setModuleName("");
-          }}
-        />
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h4 className="mb-0">Modules</h4>
+          <ModulesControls
+            moduleName={moduleName}
+            setModuleName={setModuleName}
+            addModule={() => {
+              dispatch(addModule({ name: moduleName, course: cid }));
+              setModuleName("");
+            }}
+          />
+        </div>
       )}
+
       <ul className="list-group rounded-0" id="wd-modules">
         {modules
           .filter((module: any) => module.course === cid)

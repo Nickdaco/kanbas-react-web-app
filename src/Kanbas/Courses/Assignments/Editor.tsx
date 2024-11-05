@@ -52,9 +52,9 @@ export default function AssignmentEditor() {
     };
 
     if (isNewAssignment) {
-      dispatch(addAssignmentAction(newAssignment)); // Add new assignment
+      dispatch(addAssignmentAction(newAssignment));
     } else {
-      dispatch(updateAssignmentAction(newAssignment)); // Update existing assignment
+      dispatch(updateAssignmentAction(newAssignment));
     }
 
     navigate(`/Kanbas/Courses/${cid}/Assignments`);
@@ -90,13 +90,16 @@ export default function AssignmentEditor() {
           />
         </div>
 
-        <div className="row mb-3 align-items-center">
-          <div className="col-md-2 text-md-end">
+        <div
+          className="row mb-3 align-items-center"
+          style={{ maxWidth: "400px" }}
+        >
+          <div className="col-4 text-md-end">
             <label htmlFor="points" className="form-label">
               Points
             </label>
           </div>
-          <div className="col-md-4">
+          <div className="col-8">
             <input
               type="number"
               className="form-control"
@@ -107,38 +110,54 @@ export default function AssignmentEditor() {
           </div>
         </div>
 
-        <div className="row mb-3 align-items-center">
-          <div className="col-md-2 text-md-end">
-            <label htmlFor="dueDate" className="form-label">
-              Due Date
-            </label>
-          </div>
-          <div className="col-md-4">
-            <input
-              type="datetime-local"
-              className="form-control"
-              id="wd-due-date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-            />
-          </div>
-        </div>
+        <div
+          className="d-flex align-items-center mb-4"
+          style={{ maxWidth: "400px" }}
+        >
+          <label className="assign-label me-3">Assign</label>
+          <fieldset className="assign-fieldset border p-3 flex-grow-1">
+            <div className="row mb-3">
+              <div className="col-12">
+                <label htmlFor="dueDate" className="form-label">
+                  Due
+                </label>
+                <input
+                  type="datetime-local"
+                  className="form-control"
+                  id="wd-due-date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                />
+              </div>
+            </div>
 
-        <div className="row mb-3 align-items-center">
-          <div className="col-md-2 text-md-end">
-            <label htmlFor="availableFrom" className="form-label">
-              Available from
-            </label>
-          </div>
-          <div className="col-md-4">
-            <input
-              type="datetime-local"
-              className="form-control"
-              id="wd-available-from"
-              value={availableFrom}
-              onChange={(e) => setAvailableFrom(e.target.value)}
-            />
-          </div>
+            <div className="row">
+              <div className="col-6">
+                <label htmlFor="availableFrom" className="form-label">
+                  Available From
+                </label>
+                <input
+                  type="datetime-local"
+                  className="form-control"
+                  id="wd-available-from"
+                  value={availableFrom}
+                  onChange={(e) => setAvailableFrom(e.target.value)}
+                />
+              </div>
+              <div className="col-6">
+                <label htmlFor="availableTo" className="form-label">
+                  Until
+                </label>
+                <input
+                  type="datetime-local"
+                  className="form-control"
+                  id="wd-available-to"
+                  value={availableUntil}
+                  onChange={(e) => setAvailableUntil(e.target.value)}
+                />
+              </div>
+            </div>
+          </fieldset>
         </div>
 
         <div className="d-flex justify-content-end">
