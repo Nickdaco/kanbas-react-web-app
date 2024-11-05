@@ -1,18 +1,68 @@
-import React from "react";
-import { useParams, Link } from "react-router-dom";
-import * as db from "../../Database";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addAssignment as addAssignmentAction,
+  updateAssignment as updateAssignmentAction,
+} from "./reducer";
 
-const AssignmentEditor: React.FC = () => {
+export default function AssignmentEditor() {
   const { cid, aid } = useParams();
-  const { assignments } = db;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const assignment = assignments.find(
-    (assgn) => assgn._id === aid && assgn.course === cid
+  const assignments =
+    useSelector((state: any) => state.assignmentsReducer.assignments) || [];
+
+  const existingAssignment = assignments.find(
+    (assignment: any) => assignment._id === aid
   );
 
-  if (!assignment) {
-    return <div>Assignment not found</div>;
-  }
+  const [title, setTitle] = useState(
+    existingAssignment ? existingAssignment.title : ""
+  );
+  const [description, setDescription] = useState(
+    existingAssignment ? existingAssignment.description : ""
+  );
+  const [points, setPoints] = useState(
+    existingAssignment ? existingAssignment.points : 0
+  );
+  const [dueDate, setDueDate] = useState(
+    existingAssignment ? existingAssignment.dueDate : ""
+  );
+  const [availableFrom, setAvailableFrom] = useState(
+    existingAssignment ? existingAssignment.availableFromDate : ""
+  );
+  const [availableUntil, setAvailableUntil] = useState(
+    existingAssignment ? existingAssignment.availableUntilDate : ""
+  );
+
+  const isNewAssignment = !existingAssignment;
+
+  const handleSave = () => {
+    const newAssignment = {
+      _id: aid || new Date().getTime().toString(),
+      title,
+      description,
+      points,
+      dueDate,
+      availableFromDate: availableFrom,
+      availableUntilDate: availableUntil,
+      course: cid,
+    };
+
+    if (isNewAssignment) {
+      dispatch(addAssignmentAction(newAssignment)); // Add new assignment
+    } else {
+      dispatch(updateAssignmentAction(newAssignment)); // Update existing assignment
+    }
+
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
+
+  const handleCancel = () => {
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
 
   return (
     <div className="container mt-4">
@@ -25,8 +75,8 @@ const AssignmentEditor: React.FC = () => {
             type="text"
             className="form-control"
             id="wd-name"
-            defaultValue={assignment.title}
-            readOnly
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
 
@@ -34,7 +84,9 @@ const AssignmentEditor: React.FC = () => {
           <textarea
             className="form-control"
             rows={6}
-            defaultValue="The assignment is available online"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter assignment description"
           />
         </div>
 
@@ -49,7 +101,8 @@ const AssignmentEditor: React.FC = () => {
               type="number"
               className="form-control"
               id="wd-points"
-              defaultValue={100}
+              value={points}
+              onChange={(e) => setPoints(Number(e.target.value))}
             />
           </div>
         </div>
@@ -65,7 +118,8 @@ const AssignmentEditor: React.FC = () => {
               type="datetime-local"
               className="form-control"
               id="wd-due-date"
-              defaultValue="2024-05-13T23:59"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
             />
           </div>
         </div>
@@ -81,27 +135,25 @@ const AssignmentEditor: React.FC = () => {
               type="datetime-local"
               className="form-control"
               id="wd-available-from"
-              defaultValue="2024-05-06T12:00"
+              value={availableFrom}
+              onChange={(e) => setAvailableFrom(e.target.value)}
             />
           </div>
         </div>
 
         <div className="d-flex justify-content-end">
-          <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
-            <button type="button" className="btn btn-secondary me-2">
-              Cancel
-            </button>
-          </Link>
-
-          <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
-            <button type="button" className="btn btn-danger">
-              Save
-            </button>
-          </Link>
+          <button
+            type="button"
+            className="btn btn-secondary me-2"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+          <button type="button" className="btn btn-danger" onClick={handleSave}>
+            Save
+          </button>
         </div>
       </form>
     </div>
   );
-};
-
-export default AssignmentEditor;
+}
