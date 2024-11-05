@@ -14,6 +14,7 @@ export default function Labs() {
       <div id="wd-labs" className="container-fluid">
         <h1>Welcome to Web Dev</h1>
         <h1>Labs</h1>
+        <h4>Nicholas Mamisashvili</h4>
         <TOC />
         <Routes>
           <Route path="/" element={<Navigate to="Lab1" />} />
