@@ -1,16 +1,59 @@
 import { useParams, Link } from "react-router-dom";
-import * as db from "../../Database";
+import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { FaTrash } from "react-icons/fa6";
 import AssignmentButtons from "./AssignmentButtons";
 import { BsGripVertical } from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io";
 import SearchBar from "./SearchBar";
 import { IoEllipsisVertical } from "react-icons/io5";
+import {
+  addAssignment as addAssignmentAction,
+  deleteAssignment as deleteAssignmentAction,
+} from "./reducer";
 
 export default function Assignments() {
   const { cid } = useParams();
-  const courseAssignments = db.assignments.filter(
-    (assignment: any) => assignment.course === cid
-  );
+  const dispatch = useDispatch();
+  const initialAssignments =
+    useSelector((state: any) => state.assignmentsReducer.assignments) || [];
+  const [assignments, setAssignments] = useState(initialAssignments);
+  const [showDialog, setShowDialog] = useState(false);
+  const [assignmentToDelete, setAssignmentToDelete] = useState<any>(null);
+
+  const addAssignment = (assignment: any) => {
+    const newAssignment = {
+      _id: new Date().getTime().toString(),
+      ...assignment,
+      course: cid,
+    };
+    setAssignments([...assignments, newAssignment]);
+    dispatch(addAssignmentAction(newAssignment));
+  };
+
+  const handleDeleteClick = (assignment: any) => {
+    setAssignmentToDelete(assignment);
+    setShowDialog(true);
+  };
+
+  const confirmDelete = () => {
+    if (assignmentToDelete) {
+      dispatch(deleteAssignmentAction(assignmentToDelete._id));
+      setAssignments(
+        assignments.filter(
+          (a: { _id: any }) => a._id !== assignmentToDelete._id
+        )
+      );
+    }
+    setShowDialog(false);
+  };
+
+  const cancelDelete = () => {
+    setShowDialog(false);
+    setAssignmentToDelete(null);
+  };
+
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   return (
     <div className="container mt-4">
@@ -19,9 +62,11 @@ export default function Assignments() {
           <SearchBar />
         </div>
 
-        <div className="d-flex">
-          <AssignmentButtons />
-        </div>
+        {currentUser.role === "FACULTY" && (
+          <div className="d-flex">
+            <AssignmentButtons />
+          </div>
+        )}
       </div>
 
       <ul className="list-group rounded-0" id="wd-modules">
@@ -40,26 +85,72 @@ export default function Assignments() {
               className="d-flex align-items-center p-2"
             >
               <span className="badge bg-light text-dark me-2">
-                {courseAssignments.length} Assignments
+                {assignments.length} Assignments
               </span>
               <IoEllipsisVertical />
             </div>
           </div>
 
-          {/* ASSIGNMENT LIST */}
           <ul className="wd-assignment-list list-group rounded-0">
-            {courseAssignments.map((assignment: any) => (
-              <li key={assignment._id} className="list-group-item">
-                <Link
-                  to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+            {assignments
+              .filter((assignment: any) => assignment.course === cid)
+              .map((assignment: any) => (
+                <li
+                  key={assignment._id}
+                  className="list-group-item d-flex justify-content-between align-items-center"
                 >
-                  {assignment.title}
-                </Link>
-              </li>
-            ))}
+                  <Link
+                    to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                  >
+                    {assignment.title}
+                  </Link>
+                  {currentUser.role === "FACULTY" && (
+                    <FaTrash
+                      className="text-danger cursor-pointer"
+                      onClick={() => handleDeleteClick(assignment)}
+                    />
+                  )}
+                </li>
+              ))}
           </ul>
         </li>
       </ul>
+
+      {showDialog && (
+        <div className="modal fade show" style={{ display: "block" }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirm Delete</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={cancelDelete}
+                ></button>
+              </div>
+              <div className="modal-body">
+                Are you sure you want to delete this assignment?
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={cancelDelete}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={confirmDelete}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
