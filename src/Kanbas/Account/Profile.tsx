@@ -1,4 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
+import * as client from "./client";
+
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
@@ -11,10 +13,17 @@ export default function Profile() {
     if (!currentUser) return navigate("/Kanbas/Account/Signin");
     setProfile(currentUser);
   };
-  const signout = () => {
+  const updateProfile = async () => {
+    const updatedProfile = await client.updateUser(profile);
+    dispatch(setCurrentUser(updatedProfile));
+  };
+
+  const signout = async () => {
+    await client.signout();
     dispatch(setCurrentUser(null));
     navigate("/Kanbas/Account/Signin");
   };
+
   useEffect(() => {
     fetchProfile();
   }, []);
@@ -78,6 +87,14 @@ export default function Profile() {
             <option value="FACULTY">Faculty</option>{" "}
             <option value="STUDENT">Student</option>
           </select>
+          <button
+            onClick={updateProfile}
+            className="btn btn-primary w-100 mb-2"
+          >
+            {" "}
+            Update{" "}
+          </button>
+
           <button
             onClick={signout}
             className="btn btn-danger w-100 mb-2"
