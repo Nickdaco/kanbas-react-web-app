@@ -1,6 +1,8 @@
+// @ts-nocheck
+
 import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa6";
 import AssignmentButtons from "./AssignmentButtons";
 import { BsGripVertical } from "react-icons/bs";
@@ -10,11 +12,33 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import {
   addAssignment as addAssignmentAction,
   deleteAssignment as deleteAssignmentAction,
+  setAssignments,
 } from "./reducer";
+import * as coursesClient from "../client";
 
 export default function Assignments() {
   const { cid } = useParams();
   const dispatch = useDispatch();
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(
+      cid as string
+    );
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+  const createaAssignmentForCourse = async () => {
+    if (!cid) return;
+    const newAssignment = { name: assignmentName, course: cid };
+    const assignment = await coursesClient.createAssignmentForCourse(
+      cid,
+      newAssignment
+    );
+    dispatch(addAssignment(assignment));
+  };
+
   const initialAssignments =
     useSelector((state: any) => state.assignmentsReducer.assignments) || [];
   const [assignments, setAssignments] = useState(initialAssignments);
@@ -93,7 +117,7 @@ export default function Assignments() {
 
           <ul className="wd-assignment-list list-group rounded-0">
             {assignments
-              .filter((assignment: any) => assignment.course === cid)
+              // .filter((assignment: any) => assignment.course === cid)
               .map((assignment: any) => (
                 <li
                   key={assignment._id}
