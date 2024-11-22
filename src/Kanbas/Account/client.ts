@@ -1,5 +1,13 @@
 import axios from "axios";
+export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const axiosWithCredentials = axios.create({ withCredentials: true });
+const MODULES_API = `${REMOTE_SERVER}/api/assignments`;
+
+export const deleteModule = async (moduleId: string) => {
+  const response = await axios.delete(`${MODULES_API}/${moduleId}`);
+  return response.data;
+};
+
 export const createCourse = async (course: any) => {
   const { data } = await axiosWithCredentials.post(
     `${USERS_API}/current/courses`,
@@ -15,7 +23,6 @@ export const findMyCourses = async () => {
   return data;
 };
 
-export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
 
 export const signin = async (credentials: any) => {

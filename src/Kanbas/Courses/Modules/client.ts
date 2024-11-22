@@ -10,3 +10,4 @@ export const deleteModule = async (moduleId: string) => {
   const response = await axios.delete(`${MODULES_API}/${moduleId}`);
   return response.data;
 };
+
