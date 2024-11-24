@@ -13,3 +13,7 @@ export const deleteAssignment = async (assignmentId: string) => {
   const response = await axios.delete(`${ASSIGNMENTS_API}/${assignmentId}`);
   return response.data;
 };
+export function createAssignmentForCourse(arg0: string, updatedAssignment: { _id: string; title: any; description: any; points: any; dueDate: any; availableFromDate: any; availableUntilDate: any; course: string | undefined; }) {
+  throw new Error("Function not implemented.");
+}
+

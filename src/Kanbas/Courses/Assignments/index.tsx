@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa6";
@@ -8,7 +8,6 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import SearchBar from "./SearchBar";
 import { IoEllipsisVertical } from "react-icons/io5";
 import {
-  addAssignment as addAssignmentAction,
   deleteAssignment as deleteAssignmentAction,
   setAssignments,
 } from "./reducer";
@@ -17,10 +16,10 @@ import * as assignmentsClient from "./client";
 
 export default function Assignments() {
   const { cid } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [showDialog, setShowDialog] = useState(false);
-
   const [assignmentToDelete, setAssignmentToDelete] = useState<any>(null);
 
   const assignments =
@@ -28,10 +27,14 @@ export default function Assignments() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const fetchAssignments = async () => {
-    const assignments = await coursesClient.findAssignmentsForCourse(
-      cid as string
-    );
-    dispatch(setAssignments(assignments));
+    try {
+      const assignments = await coursesClient.findAssignmentsForCourse(
+        cid as string
+      );
+      dispatch(setAssignments(assignments));
+    } catch (error) {
+      console.error("Error fetching assignments:", error);
+    }
   };
 
   const removeAssignment = async (assignmentId: string) => {
@@ -58,6 +61,10 @@ export default function Assignments() {
   const cancelDelete = () => {
     setShowDialog(false);
     setAssignmentToDelete(null);
+  };
+
+  const handleAddAssignmentClick = () => {
+    navigate(`/Kanbas/Courses/${cid}/Assignments/new`);
   };
 
   useEffect(() => {
