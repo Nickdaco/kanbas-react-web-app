@@ -1,6 +1,6 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa6";
 import AssignmentButtons from "./AssignmentButtons";
 import { BsGripVertical } from "react-icons/bs";
@@ -8,27 +8,42 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import SearchBar from "./SearchBar";
 import { IoEllipsisVertical } from "react-icons/io5";
 import {
-  addAssignment as addAssignmentAction,
   deleteAssignment as deleteAssignmentAction,
+  setAssignments,
 } from "./reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 export default function Assignments() {
   const { cid } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const initialAssignments =
-    useSelector((state: any) => state.assignmentsReducer.assignments) || [];
-  const [assignments, setAssignments] = useState(initialAssignments);
+
   const [showDialog, setShowDialog] = useState(false);
   const [assignmentToDelete, setAssignmentToDelete] = useState<any>(null);
 
-  const addAssignment = (assignment: any) => {
-    const newAssignment = {
-      _id: new Date().getTime().toString(),
-      ...assignment,
-      course: cid,
-    };
-    setAssignments([...assignments, newAssignment]);
-    dispatch(addAssignmentAction(newAssignment));
+  const assignments =
+    useSelector((state: any) => state.assignmentsReducer.assignments) || [];
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+
+  const fetchAssignments = async () => {
+    try {
+      const assignments = await coursesClient.findAssignmentsForCourse(
+        cid as string
+      );
+      dispatch(setAssignments(assignments));
+    } catch (error) {
+      console.error("Error fetching assignments:", error);
+    }
+  };
+
+  const removeAssignment = async (assignmentId: string) => {
+    try {
+      await assignmentsClient.deleteAssignment(assignmentId);
+      dispatch(deleteAssignmentAction(assignmentId));
+    } catch (error) {
+      console.error("Error deleting assignment:", error);
+    }
   };
 
   const handleDeleteClick = (assignment: any) => {
@@ -38,12 +53,7 @@ export default function Assignments() {
 
   const confirmDelete = () => {
     if (assignmentToDelete) {
-      dispatch(deleteAssignmentAction(assignmentToDelete._id));
-      setAssignments(
-        assignments.filter(
-          (a: { _id: any }) => a._id !== assignmentToDelete._id
-        )
-      );
+      removeAssignment(assignmentToDelete._id);
     }
     setShowDialog(false);
   };
@@ -53,7 +63,13 @@ export default function Assignments() {
     setAssignmentToDelete(null);
   };
 
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const handleAddAssignmentClick = () => {
+    navigate(`/Kanbas/Courses/${cid}/Assignments/new`);
+  };
+
+  useEffect(() => {
+    fetchAssignments();
+  }, [cid, dispatch]);
 
   return (
     <div className="container mt-4">
@@ -92,26 +108,24 @@ export default function Assignments() {
           </div>
 
           <ul className="wd-assignment-list list-group rounded-0">
-            {assignments
-              .filter((assignment: any) => assignment.course === cid)
-              .map((assignment: any) => (
-                <li
-                  key={assignment._id}
-                  className="list-group-item d-flex justify-content-between align-items-center"
+            {assignments.map((assignment: any) => (
+              <li
+                key={assignment._id}
+                className="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <Link
+                  to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
                 >
-                  <Link
-                    to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-                  >
-                    {assignment.title}
-                  </Link>
-                  {currentUser.role === "FACULTY" && (
-                    <FaTrash
-                      className="text-danger cursor-pointer"
-                      onClick={() => handleDeleteClick(assignment)}
-                    />
-                  )}
-                </li>
-              ))}
+                  {assignment.title}
+                </Link>
+                {currentUser.role === "FACULTY" && (
+                  <FaTrash
+                    className="text-danger cursor-pointer"
+                    onClick={() => handleDeleteClick(assignment)}
+                  />
+                )}
+              </li>
+            ))}
           </ul>
         </li>
       </ul>

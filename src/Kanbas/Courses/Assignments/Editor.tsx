@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addAssignment as addAssignmentAction,
   updateAssignment as updateAssignmentAction,
+  setAssignments,
 } from "./reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
@@ -39,8 +42,8 @@ export default function AssignmentEditor() {
 
   const isNewAssignment = !existingAssignment;
 
-  const handleSave = () => {
-    const newAssignment = {
+  const handleSave = async () => {
+    const updatedAssignment = {
       _id: aid || new Date().getTime().toString(),
       title,
       description,
@@ -51,13 +54,24 @@ export default function AssignmentEditor() {
       course: cid,
     };
 
-    if (isNewAssignment) {
-      dispatch(addAssignmentAction(newAssignment));
-    } else {
-      dispatch(updateAssignmentAction(newAssignment));
+    try {
+      if (isNewAssignment) {
+        const createdAssignment =
+          await assignmentsClient.createAssignmentForCourse(
+            cid!,
+            updatedAssignment
+          );
+        dispatch(addAssignmentAction(createdAssignment));
+      } else {
+        const updated = await assignmentsClient.updateAssignment(
+          updatedAssignment
+        );
+        dispatch(updateAssignmentAction(updated));
+      }
+      navigate(`/Kanbas/Courses/${cid}/Assignments`);
+    } catch (error) {
+      console.error("Error saving assignment:", error);
     }
-
-    navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
 
   const handleCancel = () => {
