@@ -1,0 +1,140 @@
+[
+    {
+      "id": "q101",
+      "quizId": "QZ101",
+      "type": "Multiple Choice",
+      "points": 5,
+      "title": "What is the first law of motion?",
+      "description": "Select the correct description of Newton's first law of motion.",
+      "options": ["Inertia", "Friction", "Gravity", "Momentum"],
+      "correctAnswer": "Inertia"
+    },
+    {
+      "id": "q102",
+      "quizId": "QZ101",
+      "type": "True/False",
+      "points": 5,
+      "title": "Rocket propulsion is based on Newton's third law.",
+      "description": "Decide if the statement is true or false.",
+      "correctAnswer": "True"
+    },
+    {
+      "id": "q103",
+      "quizId": "QZ102",
+      "type": "Fill in the Blank",
+      "points": 5,
+      "title": "Complete the equation:",
+      "description": "Force equals ____ times acceleration.",
+      "correctAnswer": "mass"
+    },
+    {
+      "id": "q104",
+      "quizId": "QZ102",
+      "type": "Multiple Choice",
+      "points": 10,
+      "title": "What is the unit of force?",
+      "description": "Select the correct unit for force.",
+      "options": ["Newton", "Joule", "Watt", "Pascal"],
+      "correctAnswer": "Newton"
+    },
+    {
+      "id": "q105",
+      "quizId": "QZ103",
+      "type": "True/False",
+      "points": 5,
+      "title": "Lift is generated when air pressure is lower above the wing than below.",
+      "description": "Decide if the statement is true or false.",
+      "correctAnswer": "True"
+    },
+    {
+      "id": "q106",
+      "quizId": "QZ103",
+      "type": "Multiple Choice",
+      "points": 10,
+      "title": "Which of the following increases drag on an aircraft?",
+      "description": "Select the factor that contributes to drag.",
+      "options": ["Smooth surface", "High speed", "High altitude", "Thin airfoil"],
+      "correctAnswer": "High speed"
+    },
+    {
+      "id": "q107",
+      "quizId": "QZ104",
+      "type": "Fill in the Blank",
+      "points": 5,
+      "title": "Functional groups determine ____.",
+      "description": "Fill in the blank with what functional groups determine in organic chemistry.",
+      "correctAnswer": "chemical reactivity"
+    },
+    {
+      "id": "q108",
+      "quizId": "QZ104",
+      "type": "True/False",
+      "points": 5,
+      "title": "Alkanes are saturated hydrocarbons.",
+      "description": "Decide if the statement is true or false.",
+      "correctAnswer": "True"
+    },
+    {
+      "id": "q109",
+      "quizId": "QZ105",
+      "type": "Multiple Choice",
+      "points": 10,
+      "title": "Which of the following is a coordination compound?",
+      "description": "Select the correct example of a coordination compound.",
+      "options": ["NaCl", "KCl", "[Cu(NH3)4]SO4", "H2O"],
+      "correctAnswer": "[Cu(NH3)4]SO4"
+    },
+    {
+      "id": "q110",
+      "quizId": "QZ105",
+      "type": "True/False",
+      "points": 10,
+      "title": "In coordination chemistry, ligands donate electrons.",
+      "description": "Decide if the statement is true or false.",
+      "correctAnswer": "True"
+    },
+    {
+      "id": "q111",
+      "quizId": "QZ106",
+      "type": "Fill in the Blank",
+      "points": 5,
+      "title": "The second law of thermodynamics states that entropy ____.",
+      "description": "Complete the sentence with the correct term.",
+      "correctAnswer": "increases"
+    },
+    {
+      "id": "q112",
+      "quizId": "QZ106",
+      "type": "Multiple Choice",
+      "points": 10,
+      "title": "Which is a state function?",
+      "description": "Select the correct example of a state function.",
+      "options": ["Work", "Heat", "Entropy", "Power"],
+      "correctAnswer": "Entropy"
+    },
+    {
+      "id": "q113",
+      "quizId": "QZ108",
+      "type": "Multiple Choice",
+      "points": 10,
+      "title": "What alliance is key in Middle-earth diplomacy?",
+      "description": "Choose the correct example of a Middle-earth alliance.",
+      "options": [
+        "Elves and Dwarves",
+        "Elves and Orcs",
+        "Elves and Hobbits",
+        "Men and Orcs"
+      ],
+      "correctAnswer": "Elves and Dwarves"
+    },
+    {
+      "id": "q114",
+      "quizId": "QZ108",
+      "type": "True/False",
+      "points": 5,
+      "title": "The Council of Elrond is a pivotal event in Middle-earth diplomacy.",
+      "description": "Decide if the statement is true or false.",
+      "correctAnswer": "True"
+    }
+  ]
+  
