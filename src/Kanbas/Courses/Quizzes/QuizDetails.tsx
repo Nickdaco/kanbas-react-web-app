@@ -27,9 +27,16 @@ export default function QuizDetails() {
     navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/preview`);
   };
 
+  const handleBackClick = () => {
+    navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+  };
+
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
+        <button className="btn btn-outline-secondary" onClick={handleBackClick}>
+          Back to Quizzes
+        </button>
         <h3>{quiz.name}</h3>
         {isFaculty && (
           <div>
