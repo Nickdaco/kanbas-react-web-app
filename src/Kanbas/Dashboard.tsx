@@ -12,6 +12,9 @@ export default function Dashboard({
   enrollments,
   handleEnroll,
   handleUnenroll,
+  enrolling,
+  setEnrolling,
+  updateEnrollment,
 }: {
   courses: any[];
   course: any;
@@ -22,6 +25,9 @@ export default function Dashboard({
   enrollments: { _id: string; user: string; course: string }[];
   handleEnroll: (userId: string, courseId: string) => void;
   handleUnenroll: (userId: string, courseId: string) => void;
+  enrolling: boolean;
+  setEnrolling: (enrolling: boolean) => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";
@@ -39,7 +45,14 @@ export default function Dashboard({
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">
         Dashboard ({currentUser && currentUser.role})
+        <button
+          onClick={() => setEnrolling(!enrolling)}
+          className="float-end btn btn-primary"
+        >
+          {enrolling ? "My Courses" : "All Courses"}
+        </button>
       </h1>
+
       <hr />
       {isFaculty && (
         <div>
@@ -107,6 +120,19 @@ export default function Dashboard({
                   <img src="/images/reactjs.jpg" width="100%" height={160} />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
+                      {enrolling && (
+                        <button
+                          onClick={(event) => {
+                            event.preventDefault();
+                            updateEnrollment(course._id, !course.enrolled);
+                          }}
+                          className={`btn ${
+                            course.enrolled ? "btn-danger" : "btn-success"
+                          } float-end`}
+                        >
+                          {course.enrolled ? "Unenroll" : "Enroll"}
+                        </button>
+                      )}
                       {course.name}
                     </h5>
                     <p
