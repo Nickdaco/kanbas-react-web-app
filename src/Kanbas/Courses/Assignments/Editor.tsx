@@ -43,8 +43,7 @@ export default function AssignmentEditor() {
   const isNewAssignment = !existingAssignment;
 
   const handleSave = async () => {
-    const updatedAssignment = {
-      _id: aid || new Date().getTime().toString(),
+    const newAssignment = {
       title,
       description,
       points,
@@ -59,13 +58,14 @@ export default function AssignmentEditor() {
         const createdAssignment =
           await assignmentsClient.createAssignmentForCourse(
             cid!,
-            updatedAssignment
+            newAssignment
           );
         dispatch(addAssignmentAction(createdAssignment));
       } else {
-        const updated = await assignmentsClient.updateAssignment(
-          updatedAssignment
-        );
+        const updated = await assignmentsClient.updateAssignment({
+          _id: aid,
+          ...newAssignment,
+        });
         dispatch(updateAssignmentAction(updated));
       }
       navigate(`/Kanbas/Courses/${cid}/Assignments`);
