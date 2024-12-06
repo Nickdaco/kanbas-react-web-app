@@ -145,10 +145,7 @@ export default function Dashboard({
                       <button
                         className="btn btn-primary"
                         onClick={(e) => {
-                          e.preventDefault();
-                          if (userIsEnrolled) {
-                            navigate(`/Kanbas/Courses/${course._id}/Home`);
-                          }
+                          navigate(`/Kanbas/Courses/${course._id}/Home`);
                         }}
                       >
                         Go
