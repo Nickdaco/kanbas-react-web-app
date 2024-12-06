@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import MultipleChoiceEditor from "./QuestionsEditors/MultipleChoiceEditor";
 import TrueFalseEditor from "./QuestionsEditors/TrueFalseEditor";
 import LongAnswerEditor from "./QuestionsEditors/LongAnswerEditor";
+import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import questionsData from "../../Database/questions.json";
 
 export default function QuestionsEditor() {
@@ -10,15 +11,41 @@ export default function QuestionsEditor() {
   const [selectedQuestionType, setSelectedQuestionType] =
     useState<string>("Multiple Choice");
   const [questions, setQuestions] = useState<any[]>([]);
+  const [editingQuestion, setEditingQuestion] = useState<any | null>(null);
   const { qid, cid } = useParams();
   const navigate = useNavigate();
 
   const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setEditingQuestion(null);
+  };
 
   const handleSaveQuestion = (newQuestion: any) => {
-    setQuestions([...questions, newQuestion]);
+    if (editingQuestion) {
+      setQuestions(
+        questions.map((q) =>
+          q._id === editingQuestion._id ? { ...q, ...newQuestion } : q
+        )
+      );
+    } else {
+      setQuestions([
+        ...questions,
+        { _id: Date.now().toString(), ...newQuestion },
+      ]);
+    }
     setIsModalOpen(false);
+    setEditingQuestion(null);
+  };
+
+  const handleEditQuestion = (question: any) => {
+    setEditingQuestion(question);
+    setSelectedQuestionType(question.type);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteQuestion = (_id: string) => {
+    setQuestions(questions.filter((q) => q._id !== _id));
   };
 
   useEffect(() => {
@@ -63,16 +90,31 @@ export default function QuestionsEditor() {
         </div>
       </div>
       <ul className="list-group">
-        {questions.map((question, index) => (
-          <li key={index} className="list-group-item">
-            <h5>{question.title}</h5>
-            <p>{question.question}</p>
-            <p>
-              <strong>Points:</strong> {question.points}
-            </p>
-            <p>
-              <strong>Type:</strong> {question.type}
-            </p>
+        {questions.map((question) => (
+          <li
+            key={question._id}
+            className="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <div>
+              <h5>{question.title}</h5>
+              <p>{question.question}</p>
+              <p>
+                <strong>Points:</strong> {question.points}
+              </p>
+              <p>
+                <strong>Type:</strong> {question.type}
+              </p>
+            </div>
+            <div>
+              <FaPencilAlt
+                className="text-primary me-3 cursor-pointer"
+                onClick={() => handleEditQuestion(question)}
+              />
+              <FaTrash
+                className="text-danger cursor-pointer"
+                onClick={() => handleDeleteQuestion(question._id)}
+              />
+            </div>
           </li>
         ))}
       </ul>
@@ -84,6 +126,7 @@ export default function QuestionsEditor() {
             handleSaveQuestion({ ...newQuestion, quizId: qid })
           }
           onCancel={handleCloseModal}
+          initialData={editingQuestion}
         />
       )}
       {isModalOpen && selectedQuestionType === "True/False" && (
@@ -92,6 +135,7 @@ export default function QuestionsEditor() {
             handleSaveQuestion({ ...newQuestion, quizId: qid })
           }
           onCancel={handleCloseModal}
+          initialData={editingQuestion}
         />
       )}
       {isModalOpen && selectedQuestionType === "Long Answer" && (
@@ -100,6 +144,7 @@ export default function QuestionsEditor() {
             handleSaveQuestion({ ...newQuestion, quizId: qid })
           }
           onCancel={handleCloseModal}
+          initialData={editingQuestion}
         />
       )}
     </div>

@@ -1,16 +1,27 @@
 import React, { useState } from "react";
 
+interface TrueFalseEditorProps {
+  onSave: (question: any) => void;
+  onCancel: () => void;
+  initialData?: {
+    title: string;
+    points: number;
+    question: string;
+    correctAnswer: string;
+  };
+}
+
 export default function TrueFalseEditor({
   onSave,
   onCancel,
-}: {
-  onSave: (question: any) => void;
-  onCancel: () => void;
-}) {
-  const [title, setTitle] = useState("");
-  const [points, setPoints] = useState<number>(0);
-  const [question, setQuestion] = useState("");
-  const [isTrue, setIsTrue] = useState<boolean>(true);
+  initialData,
+}: TrueFalseEditorProps) {
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [points, setPoints] = useState<number>(initialData?.points || 0);
+  const [question, setQuestion] = useState(initialData?.question || "");
+  const [isTrue, setIsTrue] = useState<boolean>(
+    initialData?.correctAnswer === "True" || true
+  );
 
   const handleSave = () => {
     const newQuestion = {

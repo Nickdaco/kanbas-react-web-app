@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 
+interface LongAnswerEditorProps {
+  onSave: (question: any) => void;
+  onCancel: () => void;
+  initialData?: {
+    title: string;
+    points: number;
+    question: string;
+  };
+}
+
 export default function LongAnswerEditor({
   onSave,
   onCancel,
-}: {
-  onSave: (question: any) => void;
-  onCancel: () => void;
-}) {
-  const [title, setTitle] = useState("");
-  const [points, setPoints] = useState<number>(0);
-  const [question, setQuestion] = useState("");
+  initialData,
+}: LongAnswerEditorProps) {
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [points, setPoints] = useState<number>(initialData?.points || 0);
+  const [question, setQuestion] = useState(initialData?.question || "");
 
   const handleSave = () => {
     const newQuestion = {

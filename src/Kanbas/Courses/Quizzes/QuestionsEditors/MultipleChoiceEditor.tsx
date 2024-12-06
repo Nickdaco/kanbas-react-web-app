@@ -3,17 +3,29 @@ import React, { useState } from "react";
 interface MultipleChoiceEditorProps {
   onSave: (question: any) => void;
   onCancel: () => void;
+  initialData?: {
+    title: string;
+    points: number;
+    question: string;
+    choices: string[];
+    correctChoice: number | null;
+  };
 }
 
 export default function MultipleChoiceEditor({
   onSave,
   onCancel,
+  initialData,
 }: MultipleChoiceEditorProps) {
-  const [title, setTitle] = useState("");
-  const [points, setPoints] = useState(0);
-  const [question, setQuestion] = useState("");
-  const [choices, setChoices] = useState<string[]>([""]);
-  const [correctChoice, setCorrectChoice] = useState<number | null>(null);
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [points, setPoints] = useState(initialData?.points || 0);
+  const [question, setQuestion] = useState(initialData?.question || "");
+  const [choices, setChoices] = useState<string[]>(
+    initialData?.choices || [""]
+  );
+  const [correctChoice, setCorrectChoice] = useState<number | null>(
+    initialData?.correctChoice ?? null
+  );
 
   const handleAddChoice = () => {
     setChoices([...choices, ""]);
